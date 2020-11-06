@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Todo-App</title>
+    <link href="todo.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="header" class="header">
+      <h2>My To Do List</h2>
+      <input type="text" id="myInput" placeholder="Title..." />
+      <button class="addBtn" type="button" onclick="todoApp.addNewTodo()">
+        Add Todo
+      </button>
+    </div>
+    <ul id="todoList" ondblclick="todoApp.markCompleted(event)">
+      <!-- <li>No Todos found. Please create new Todo.</li> -->
+      <!-- <li>
+        Hit the gym <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li class="checked">
+        Pay bills <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li>
+        Meet George <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li>Buy eggs <span class="edit">☰</span><span class="close">×</span></li>
+      <li>
+        Read a book <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li>
+        Organize office <span class="edit">☰</span><span class="close">×</span>
+      </li> -->
+    </ul>
+
+    <script type="text/javascript" src="todo-service.js"></script>
+    <script type="text/javascript" src="todos-app.js"></script>
+  </body>
+</html>

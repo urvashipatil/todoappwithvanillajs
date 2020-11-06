@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      console.clear();
+      //Inheritance
+      //SuccessAlert -->Alert
+      //FailureAlert --> Alert
+
+      function Alert(title) {
+        console.log("Alert-->ctor");
+        this.title = title;
+      }
+
+      Alert.prototype.show = function() {
+        console.log(this.title);
+      };
+
+      function SuccessAlert(title) {
+        //Step 1 -  call base class constructor
+        Alert.call(this, title);
+      }
+
+      //Inherit SuccessAlert from Alert
+      //Step 2
+      SuccessAlert.prototype = Object.create(Alert.prototype);
+      //Step 3
+      SuccessAlert.prototype.constructor = SuccessAlert;
+
+      function FailureAlert(title) {
+        //Step 1 -  call base class constructor
+        Alert.call(this, title);
+      }
+      //Inherit FailureAlert from Alert
+      //Step 2
+      FailureAlert.prototype = Object.create(Alert.prototype);
+      //Step 3
+      FailureAlert.prototype.constructor = FailureAlert;
+
+      var success = new SuccessAlert("Saved Successfully");
+      var failure = new SuccessAlert("Error Occurred");
+
+      success.show();
+      failure.show();
+    </script>
+  </body>
+</html>

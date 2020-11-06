@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+
+  <body>
+    <p>
+      <button id="sync" onclick="request(false);">Synchronous button</button>
+    </p>
+
+    <p>
+      <button id="async" onclick="request(true);">
+        Asynchronous button
+      </button>
+    </p>
+    <p>
+      <button
+        id="test"
+        onmouseover="changecss()"
+        onclick="alert('cliked here !');"
+      >
+        Click here button
+      </button>
+    </p>
+    <br />
+
+    <div id="content"></div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript">
+      var requesting = false;
+
+      function changecss() {
+        document.getElementById("test").style.backgroundColor = "red";
+      }
+
+      function request(async) {
+        if (requesting) {
+          return;
+        }
+
+        requesting = true;
+
+        var content = $("#content");
+
+        content.text("Requesting ...");
+
+        $.ajax({
+          url: "https://jsonplaceholder.typicode.com/todos",
+          async: async,
+          success: function(data) {
+            content.text(data);
+            requesting = false;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

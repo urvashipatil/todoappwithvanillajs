@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link href="task1.css" rel="stylesheet" />
+    <style>
+      /* Include the padding and border in an element's total width and height */
+      * {
+        box-sizing: border-box;
+      }
+
+      /* Remove margins and padding from the list */
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Style the list items */
+      ul li {
+        cursor: pointer;
+        position: relative;
+        padding: 12px 8px 12px 40px;
+        background: #eee;
+        font-size: 18px;
+        transition: 0.2s;
+
+        /* make the list items unselectable */
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* Set all odd list items to a different color (zebra-stripes) */
+      ul li:nth-child(odd) {
+        background: #f9f9f9;
+      }
+
+      /* Darker background-color on hover */
+      ul li:hover {
+        background: #ddd;
+      }
+
+      /* When clicked on, add a background color and strike out text */
+      ul li.checked {
+        background: #888;
+        color: #fff;
+        text-decoration: line-through;
+      }
+
+      /* Add a "checked" mark when clicked on */
+      ul li.checked::before {
+        content: "";
+        position: absolute;
+        border-color: #fff;
+        border-style: solid;
+        border-width: 0 2px 2px 0;
+        top: 10px;
+        left: 16px;
+        transform: rotate(45deg);
+        height: 15px;
+        width: 7px;
+      }
+
+      /* Style the close button */
+      .close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 12px 16px 12px 16px;
+      }
+
+      .close:hover,
+      .edit:hover {
+        background-color: #f44336;
+        color: white;
+      }
+
+      /* Style the header */
+      .header {
+        background-color: #f4ba36e3;
+        padding: 30px 40px;
+        color: white;
+        text-align: center;
+      }
+
+      /* Clear floats after the header */
+      .header:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      /* Style the input */
+      input {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        width: 75%;
+        padding: 10px;
+        float: left;
+        font-size: 16px;
+      }
+
+      /* Style the "Add" button */
+      .addBtn {
+        padding: 10px;
+        width: 25%;
+        background: #d9d9d9;
+        color: #555;
+        float: left;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 0;
+        border: none;
+      }
+
+      .addBtn:hover {
+        background-color: #bbb;
+      }
+      .edit {
+        color: black;
+        position: absolute;
+        right: 40px;
+        top: 0;
+        padding: 12px 16px 12px 16px;
+      }
+      .edit-input {
+        padding: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="myDIV" class="header">
+      <h2>My To Do List</h2>
+      <input type="text" id="myInput" placeholder="Title..." />
+      <!-- <span onclick="addNewTask()" class="addBtn">Add</span> -->
+      <button onclick="addNewTask()" class="addBtn" type="button">
+        Add Todo
+      </button>
+    </div>
+
+    <ul id="myUL">
+      <li>
+        Hit the gym <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li class="checked">
+        Pay bills <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li>
+        Meet George <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li>Buy eggs <span class="edit">☰</span><span class="close">×</span></li>
+      <li>
+        Read a book <span class="edit">☰</span><span class="close">×</span>
+      </li>
+      <li>
+        Organize office <span class="edit">☰</span><span class="close">×</span>
+      </li>
+    </ul>
+
+    <!-- <div class="container">
+      <div class="row">
+        <h2 class="todo-header">Simple Todo App</h2>
+        <h3>What do I want to do today?</h3>
+      </div>
+      <div class="row">
+        <form>
+          <input id="todo" type="text" placeholder="my todo" />
+          <button onclick="addNewTask()" type="button">Add Todo</button>
+        </form>
+      </div>
+      <div class="row">
+        <ul id="task-list" ondblclick="todoApp.onToggleEdit()"></ul>
+      </div>
+    </div> -->
+
+    <script type="text/javascript">
+      var taskEl$ = document.querySelector("#myUL");
+      var inputTask$ = document.getElementById("myInput");
+      var TodoData = [
+        { id: 1, title: "Learn JavaScript", completed: true },
+        { id: 2, title: "Learn CSS", completed: false, isEdit: false },
+        { id: 3, title: "Learn Backbone", completed: false },
+        { id: 4, title: "Learn Java", completed: false }
+      ];
+
+      function render() {
+        taskEl$.innerHTML = "";
+        if (TodoData.length === 0) {
+          taskEl$.innerHTML =
+            "<li>No todos yet! Be awesome and create some todos!!</li>";
+          return;
+        }
+        TodoData.forEach(todo => {
+          taskEl$.append(this.taskItemUI(todo));
+        });
+      }
+
+      function addNewTask() {
+        let taskTitle = inputTask$.value;
+        if (!taskTitle) {
+          return;
+        }
+        let todo = {
+          id: +new Date(),
+          title: taskTitle,
+          completed: false
+        };
+        TodoData = [todo, ...TodoData];
+
+        let newTask = taskItemUI(todo);
+        // debugger;
+        // taskEl$.append(newTask);
+        // taskEl$.insertAdjacentHTML("afterBegin", newTask.children[0].outerHTML);
+        taskEl$.insertAdjacentElement("afterBegin", newTask.children[0]);
+        inputTask$.value = "";
+      }
+
+      function deleteTask(id) {
+        if (confirm("Are you sure you want to delete?")) {
+          let todos = TodoData.filter(function(todo) {
+            return todo.id != id;
+          });
+          TodoData = [...todos];
+
+          document.querySelector("#task-" + id).remove();
+
+          if (TodoData.length == 0) {
+            render();
+          }
+        }
+      }
+
+      function markCompleted(id) {
+        let todoTobeEdited;
+        let todos = TodoData.map(function(todo) {
+          if (todo.id == id) {
+            todo.completed = !todo.completed;
+            todoTobeEdited = todo;
+          }
+          return todo;
+        });
+        TodoData = [...todos];
+        //render();
+
+        document.querySelector("#task-" + id).className =
+          todoTobeEdited && todoTobeEdited.completed ? "checked" : "";
+      }
+
+      function toggleEdit(id) {
+        let todoTobeEdited;
+        let todos = TodoData.map(function(todo) {
+          if (todo.id == id) {
+            todo.isEdit = !todo.isEdit;
+            if (todo.isEdit) {
+              todoTobeEdited = todo;
+            }
+          } else {
+            todo.isEdit = false;
+          }
+          return todo;
+        });
+        TodoData = [...todos];
+
+        if (todoTobeEdited) {
+          let newTask = taskItemUI(todoTobeEdited);
+
+          let taskEl = document.querySelector("#task-" + id);
+          taskEl.parentNode.replaceChild(newTask, taskEl);
+          // document.querySelector("#task-" + id).focus();
+        }
+
+        // this.render();
+      }
+
+      function saveTask(event, id) {
+        // debugger;
+        if ((event.which || event.keyCode) == 13) {
+          let todos = TodoData.map(function(todo) {
+            if (todo.id == id) {
+              todo.title = event.target.value;
+              todo.isEdit = !todo.isEdit;
+              // todoTobeEdited = todo;
+            }
+            return todo;
+          });
+          TodoData = [...todos];
+          this.render();
+        }
+      }
+
+      // Render one task item
+      var taskItemUI = function(task) {
+        // // var itemUI = document.createElement("fragment");
+        // // // itemUI.className = "card mt-3";
+        // // itemUI.id = `task-${task.id}`;
+
+        // let statusClass = task.completed
+        //   ? "badge badge-success"
+        //   : "badge badge-warning";
+
+        let html = "";
+        if (task.isEdit) {
+          html = `<li id="task-${task.id}"><input class="edit-input" onblur="toggleEdit(${task.id})" onkeyup="saveTask(event,${task.id})" type="text" value="${task.title}"></li>`;
+        } else {
+          //itemUI.innerHTML = `
+          html = `
+          <li id="task-${task.id}" ondblclick="markCompleted(${
+            task.id
+          })"  data-id="${task.id}" class="${
+            task.completed ? "checked" : ""
+          }">${task.title}<span onclick="toggleEdit(${
+            task.id
+          })" class="edit">☰</span> <span onclick="deleteTask(${
+            task.id
+          })" class="close">×</span></li>
+          `;
+        }
+
+        //       itemUI.innerHTML = `
+        //     <div class="card-body">
+        //       <li class="d-flex justify-content-between">
+        //         ${task.title}
+        //         <button data-task-id =${task.id} class="btn btn-outline ui-delete">
+        //           <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        //            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+        //           </svg>
+        //         </button>
+        //       </li>
+        //       <span class="badge ${statusClass}">
+        //         ${task.completed ? "completed" : "in-progress"}
+        //       </span>
+        //     </div>
+        // `;
+        // return itemUI;
+
+        var t = document.createElement("template");
+        t.innerHTML = html;
+        return t.content.cloneNode(true);
+      };
+
+      // render();
+    </script>
+  </body>
+</html>

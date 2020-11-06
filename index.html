@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src=""></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <p id="para"></p>
+    <script type="text/javascript">
+      var response = fetch("https://jsonplaceholder.typicode.com/todos");
+      // console.log(response); //promise
+
+      response
+        .then(function(result) {
+          console.log(result);
+          return result.json();
+        })
+        .then(function(data) {
+          console.log(data);
+        });
+
+      // class Bubble {
+      //   constructor() {
+      //     this.x = Math.ceil(Math.random() * 100);
+      //     this.y = Math.ceil(Math.random() * 100);
+      //   }
+
+      //   display() {
+      //     //code to draw bubble
+      //     console.log(`Drawing bubble at x=${this.x} y=${this.y}}`);
+      //   }
+
+      //   move() {
+      //     //code to move bubble
+      //     console.log(`Moving bubble at x=${this.x} y=${this.y}}`);
+      //   }
+      // }
+
+      // var bubble = new Bubble();
+      // bubble.display();
+
+      // var bubbles = [];
+      // for (let i = 0; i < 10; i++) {
+      //   var bubble = new Bubble();
+      //   bubbles.push(bubble);
+      // }
+
+      // //constructor function
+      // function Bubble() {
+      //   //check if anyone calls constructor function without new operator
+      //   if (!(this instanceof Bubble)) {
+      //     return new Bubble();
+      //   }
+      //   this.x = Math.ceil(Math.random() * 100);
+      //   this.y = Math.ceil(Math.random() * 100);
+      //   // this.display = function() {
+      //   //   //code to draw bubble
+      //   //   console.log(`Drawing bubble at x=${this.x} y=${this.y}`);
+      //   // };
+      //   // this.move = function() {
+      //   //   //code to move bubble
+      //   //   console.log(`Moving bubble at x=${this.x} y=${this.y}`);
+      //   // };
+      //   // return "hard coded value";
+      // }
+
+      // Bubble.prototype.z = 100;
+      // Bubble.prototype.display = function() {
+      //   //code to draw bubble
+      //   console.log(`Drawing bubble at x=${this.x} y=${this.y}`);
+      // };
+      // Bubble.prototype.move = function() {
+      //   console.log(`Moving bubble at x=${this.x} y=${this.y}`);
+      // };
+    </script>
+  </body>
+</html>

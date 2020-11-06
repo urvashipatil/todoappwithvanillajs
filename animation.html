@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Simple Animation</title>
+    <style>
+      body {
+        background: peachpuff;
+      }
+      #myContainer {
+        width: 400px;
+        height: 400px;
+        position: relative;
+        background: darkseagreen;
+      }
+
+      #myAnimation {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        background: maroon;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="myContainer">
+      <div id="myAnimation"></div>
+    </div>
+
+    <input
+      type="button"
+      onmouseover="this.style.background='red'"
+      value="CLick here"
+    />
+
+    <script type="text/javascript">
+      function move() {
+        var elem = document.querySelector("#myAnimation");
+        var pos = 0;
+        var processId = setInterval(frame, 10);
+
+        function frame() {
+          if (pos == 350) {
+            clearInterval(processId);
+          }
+          pos++;
+          elem.style.top = pos + "px";
+          elem.style.left = pos + "px";
+        }
+      }
+
+      move();
+    </script>
+  </body>
+</html>

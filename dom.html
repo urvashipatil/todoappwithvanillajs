@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body id="htmlbody">
+    <h1>Heading</h1>
+    <div class="container">
+      <div>
+        <a href="http://google.com" onclick="onClickHome(event)">Home</a>
+      </div>
+      <input
+        type="button"
+        value="Click Here"
+        onmouseover="mouseOverButton(this)"
+        id="btnClickHere"
+      />
+      <form id="formElem">
+        <input type="text" name="name" value="John" />
+        <input type="text" name="surname" value="Smith" />
+        <input type="submit" />
+        <!-- <input type="button" value="Click Here" /> -->
+      </form>
+
+      <div class="second_div">
+        <ul id="myUl">
+          <li data-index="0" data="item1_id">Item 1</li>
+          <li data-index="1">Item 2</li>
+          <li data-index="2">Item 3</li>
+          <li data-index="3">Item 4</li>
+          <li data-index="4">Item 5</li>
+        </ul>
+      </div>
+    </div>
+    <!-- <ul>
+      <li data="item2_id">Item 2</li>
+      <li>Item 4</li>
+    </ul> -->
+    <h4 class="container">Footer</h4>
+
+    <script type="text/javascript">
+      console.log("refreshed");
+
+      // var myliList = document.querySelectorAll("ul#myUl li");
+      // myliList.forEach(function(li, index) {
+      //   li.addEventListener("click", event => {
+      //     liCLicked(event, index);
+      //   });
+      // });
+
+      document.querySelector("ul#myUl").addEventListener("click", liCLicked);
+
+      function liCLicked(e, index) {
+        // alert("li clicked");
+        console.log(e.target);
+        // alert(`li ${index} is clicked  - ${e.target.innerHTML}`);
+        alert(
+          `li ${e.target.getAttribute("data-index")}  is clicked  - ${
+            e.target.innerHTML
+          }`
+        );
+      }
+
+      //using addEventListener
+      document
+        .querySelector("#btnClickHere")
+        .addEventListener("click", function(event) {
+          event.stopPropagation();
+          // alert("clicked here");
+        });
+
+      document
+        .querySelector("div.container")
+        .addEventListener("click", function(event) {
+          // alert("DIV clicked");
+        });
+      // document
+      //   .querySelector("#btnClickHere")
+      //   .addEventListener("click", function() {
+      //     alert("clicked here second time");
+      //   });
+      // onclick='alert("clicked here");'
+
+      function onClickHome(e) {
+        console.log("HOme link clicked");
+        if (true) {
+          alert("validation fails");
+          e.preventDefault();
+        }
+      }
+
+      document
+        .querySelector("#formElem")
+        .addEventListener("submit", function(e) {
+          debugger;
+          e.preventDefault();
+          var t = new FormData(formElem);
+
+          console.log("formData", new FormData(formElem));
+        });
+
+      function onSubmitClick(e, formEle) {
+        debugger;
+        e.preventDefault();
+        var t = new FormData(formElem);
+
+        console.log("formData", new FormData(formElem));
+      }
+
+      function mouseOverButton(element) {
+        // console.log("mouseOverButton");
+        // console.log(element);
+        // element.style.background = "cyan";
+      }
+    </script>
+  </body>
+</html>
